@@ -1,36 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>끝말잇기</title>
     <style>
-        
+
     </style>
 </head>
+
 <body>
     <div><span id="order">1</span>번째 참가자</div>
     <div>제시어 : <span id="word"></span></div>
     <input type="text">
     <button>입력</button>
-    <button class="btn">버튼2</button>
-    <button class="btn">버튼3</button>
+    <div>
+    </div>
     <script>
-        const number = parseInt(prompt('몇 명이 참가하나요?'),10);
-        //console.log('number',number);
-        alert(number);
-        const yesOrNo = confirm('맞나요?');
-
+        const number = parseInt(prompt('몇 명이 참가하나요?'));
         const $button = document.querySelector('button');
-        console.log($button);
-
-        //document.querySelector('span'); //querySelector : 첫번째 span만 선택 된다
-        document.querySelector('#order'); //id로 선택해서 가져오기
-        document.querySelectorAll('.btn'); //class로 선택해서 가져오기
-
-        const $span = document.querySelector('div span') //div의 자손태그인 span
-
+        const $input = document.querySelector('input');
+        const $word = document.querySelector('#word');
+        const $order = document.querySelector('#order');
+        let word; //제시어를 저장할 변수 
+        let newWord; //새로 입력한 단어
+        
+        const onClickButton = () => {
+            //제시어가 비어 있는지 아닌지 확인하는 분기 
+            if (!word || word[word.length - 1] === newWord[0]) {
+                //제시어가 비어 있는 경우의 코드
+                word = newWord; //입력한 단어가 제시어가 된다 (데이터 바꿔주기)
+                $word.textContent = word; //입력한 단어를 span태그 안에 넣어준다 (화면 바꿔주기)
+                const order = Number($order.textContent); //현재 순서
+                if (order + 1 > number) {
+                    $order.textContent = 1
+                } else {
+                    $order.textContent = order + 1
+                }
+            } 
+            else {//올바르지 않은가
+                alert('틀렸습니다');
+                
+            }
+            $input.value = '';
+            $input.focus();
+        };
+        const onInput = (event) => {
+            newWord = event.target.value;
+        };
+        $button.addEventListener('click', onClickButton);
+        $input.addEventListener('input', onInput);
     </script>
 </body>
+
 </html>

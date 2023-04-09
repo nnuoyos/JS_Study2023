@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿵쿵따 만들기</title>
+</head>
+
+<body>
+    <div>쿵쿵따 게임</div>
+    <div><span id="number">1</span>번째 참가자</div>
+    <div>제시어: <span id="word"></span></div>
+    <input type="text"><button>입력</button>
+    <script>
+        const person = Number(prompt('참가자를 입력해주세요'));
+
+        if (person) {
+            const $number = document.querySelector('#number');
+            const $button = document.querySelector('button');
+            const $input = document.querySelector('input');
+            const $word = document.querySelector('#word');
+
+            let word; //제시어를 저장하는 변수
+            let newWord; //새로 입력된 제시어를 저장
+            const onClickButton = () => {
+                //제시어가 비어있거나 세글자이거나 입력한 단어가 올바른지?
+                if (newWord.length === 3 && (!word || word[word.length - 1] === newWord[0])) {
+                    word = newWord;
+                    $word.textContent = word;
+                    const playOrder = Number($number.textContent); //참가자 순서
+                    if (playOrder + 1 > person) {
+                        $number.textContent = 1; //다시 첫번째 순서로 돌아간다
+                    } else {
+                        $number.textContent = playOrder + 1;
+                    }
+                }
+
+                else {
+                    alert('틀렸습니다');
+                }
+                $input.value = '';
+                $input.focus();
+            }
+
+            //입력한 단어를 newWord에 저장
+            const onInput = (event) => {
+                newWord = event.target.value;
+            }
+
+            $button.addEventListener('click', onClickButton);
+            $input.addEventListener('input', onInput);
+        } else {
+            alert('게임을 취소했습니다');
+        }
+
+
+    </script>
+</body>
+
+</html>
