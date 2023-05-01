@@ -50,11 +50,17 @@
     const $result = document.querySelector('#result');
 
     const onClickNumber  = (event) => {
-        if(operator){ //연산자 비어 있지 않을 때
-            numTwo += event.target.textContent;
-        }else { //연산자 비어 있을 때
+        if(!operator){ 
             numOne += event.target.textContent;
-        }$result.value += event.target.textContent;
+            $result.value += event.target.textContent;
+            return;
+        }
+        //이 아래로는 operator가 존재하는 경우에만 실행됨
+        if(!numTwo){
+            $result.value=''; //numTwo에 값 저장하기 전 화면 비우기
+        }
+        numTwo += event.target.textContent;
+        $result.value += event.target.textContent;
     };
     
     document.querySelector('#num-0').addEventListener('click', onClickNumber);
@@ -81,8 +87,40 @@
     document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
     document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
     document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
-    document.querySelector('#calculate').addEventListener('click', ()=> {});
-    document.querySelector('#clear').addEventListener('click', ()=> {});
+    document.querySelector('#calculate').addEventListener('click', ()=> {
+       if(numTwo){
+            switch(operator){
+                case '+':
+                    $result.value = parseInt(numOne) + parseInt(numTwo);
+                    break;
+                case '-':
+                    $result.value = numOne - numTwo;
+                    break;
+                case '*':
+                    $result.value = numOne * numTwo;
+                    break;
+                case '/':
+                    $result.value = numOne / numTwo;
+                    break;
+            }
+            $operator.value = '';
+            numOne = $result.value; //연산된 값 을 numOne에 저장
+            operator = '';          //연산자 초기화
+            numTwo = '';            //numTwo 초기화
+       }else{
+            alert('숫자를 먼저 입력하세요');
+        }
+    });
+    document.querySelector('#clear').addEventListener('click', ()=> {
+        //초기화(클리어)
+        numOne = '';
+        numTwo = '';
+        operator = '';
+        $operator.value = '';
+        $result.value = '';
+    });
+    
+    
 </script>
 </body>
 </html>
