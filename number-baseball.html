@@ -29,7 +29,7 @@
             answer.push(numbers[index]);
             numbers.splice(index, 1);
         }
-        console.log(answer);
+        console.log('random answer : ', answer);
 
         const tries = []; 
         function checkInput(input){
@@ -48,7 +48,7 @@
             return true;
 
         }
-
+        let out = 0; //out 변수를 여기에 선언해야 누적이 된다
         $form.addEventListener('submit', ()=>{
             event.preventDefault(); //기본 동작 막기
             const value = $input.value;
@@ -70,8 +70,54 @@
             }
 
             //몇 스트라이크 , 몇 볼인지 체크 
-            tries.push(value);
+            let strike = 0;
+            let ball = 0;
+            //let out = 0; 
+            // for(let i =0; i<answer.length; i++){
+            //     const index = value.indexOf(answer[i]); 
+            //     if(index > -1){ //일치하는 숫자 발견
+            //         if(index === i){ //자릿수도 일치 
+            //             strike += 1;
+            //         }else{//숫자만 같음
+            //             ball += 1; 
+            //         }
+            //     }
+            // }
+            answer.forEach((number, aIndex)=>{
+                const index = value.indexOf(String(number));
+                if(index > -1){
+                    if(index === aIndex){
+                        strike += 1;
+                    }else{
+                        ball += 1;
+                    }
+                }
+            });
+
+            if(strike == 0 && ball == 0){
+                //out += 1;
+                out++;
+                $logs.append(`${value} :${out}아웃`, document.createElement('br'));
+                // if(out == 3){
+                // $logs.append(`${value} : ${out}아웃으로 패배 하였습니다`, document.createElement('br'));
+                // }
+            }else{
+                $logs.append(`${value} : ${strike} 스트라이크 ${ball}볼`, document.createElement('br'));
+            }
+            
+            if(out == 3){
+                const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+                $logs.appendChild(message);
+                return;
+                //$logs.append(`${value} : ${out}아웃으로 패배 하였습니다`, document.createElement('br'));
+            }
+
+            tries.push(value); //값을 기록하면서 몇번 시도했는지 체크
+            
         });
+
+
+        
 
     </script>
 </body>
