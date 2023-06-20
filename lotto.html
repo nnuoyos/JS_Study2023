@@ -34,15 +34,33 @@
     }
 
     //조건이 복잡하면 for문
-   /*  for(i=candidate.length; i>0; i--){
+   /*  
+   for(i=candidate.length; i>0; i--){
         const random = Math.floor(Math.random() * i);
         const spliceArray = candidate.splice(random, 1);
         const value = spliceArray[0];
         shuffle.push(value);
-    } */
+    }
+    문자열 알파벳 순으로 정렬할 때 (코드 넘버로 비교하는 방법)
+    arr = ['apple', 'orange', 'banana', 'grapes', 'kiwi'];
+    arr.slice().sort((a,b)=>a[0].charCodeAt()-b[0].charCodeAt())
+
+    arr.slice().sort((a,b)=>a.localeCompare(b)) //완벽한 사전순(내림차순) 으로 정렬
+
+    sort내부에서 팀소트 (정렬 알고리즘)에 의해 숫자가 정렬 된다 a-b
+
+    
+    */
     console.log('shuffle', shuffle);
     const widBalls = shuffle.slice(0,6).sort(); //오름차순 정렬
     const bonus = shuffle[6];
     console.log(widBalls, bonus);
+    const $result = document.querySelector('#result');
+    setTimeout(() => {
+    const $ball = document.createElement('div');
+    $ball.className = 'ball';
+    $ball.textContent = winBalls[0];
+    $result.appendChild($ball);
+    }, 1000);
 </script>
 </html>
